@@ -1,10 +1,7 @@
 = Revix: revision history models
 
 image:https://img.shields.io/gem/v/revix.svg["Gem Version", link="https://rubygems.org/gems/revix"]
-image:https://github.com/metanorma/revix/workflows/ubuntu/badge.svg["Ubuntu Build Status", link="https://github.com/metanorma/revix/actions?query=workflow%3Aubuntu"]
-image:https://github.com/metanorma/revix/workflows/macos/badge.svg["OSX Build Status", link="https://github.com/metanorma/revix/actions?query=workflow%3Amacos"]
-image:https://github.com/metanorma/revix/workflows/windows/badge.svg["Windows Build Status", link="https://github.com/metanorma/revix/actions?query=workflow%3Awindows"]
-image:https://codeclimate.com/github/metanorma/revix/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/metanorma/revix"]
+image:https://github.com/metanorma/revix/actions/workflows/rake.yml/badge.svg["Windows Build Status", link="https://github.com/metanorma/revix/actions/workflows/rake.yml"]
 image:https://img.shields.io/github/issues-pr-raw/metanorma/revix.svg["Pull Requests", link="https://github.com/metanorma/revix/pulls"]
 image:https://img.shields.io/github/commits-since/metanorma/revix/latest.svg["Commits since latest",link="https://github.com/metanorma/revix/releases"]
 
