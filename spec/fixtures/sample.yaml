@@ -1,0 +1,41 @@
+revisions:
+  - date:
+    - type: published
+      value:  2012-04
+    edition: 1.0.0
+    contributor:
+    - person:
+        name:
+          abbreviation: JMS
+          completename: J. Michael Straczynski
+    amend:
+      - description: Approved edition of S-102
+  - date:
+    - type: updated
+      value:  2017-03
+    edition: 2.0.0
+    contributor:
+    - organization:
+        name: S-102PT
+    amend:
+      - description: |
+          Updated clause 4.0 and 12.0.
+
+          Populated clause 9.0.
+        location:
+          - type: clause
+            value: 4.0
+          - type: clause
+            value: 12.0
+          - type: clause
+            value: 9.0
+          - type: whole
+        classification:
+          - tag: severity
+            value: major
+          - tag: type
+            value: editorial
+      - description: Deleted contents of Annex B in preparation for updated S-100 Part 10C guidance.
+        location:
+          - type: annex
+            value: B

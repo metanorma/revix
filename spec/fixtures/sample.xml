@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<revision-history>
+  <revision>
+    <date>
+      <type>published</type>
+      <value>2012-04</value>
+    </date>
+    <edition>1.0.0</edition>
+    <contributor>
+      <person>
+        <name>
+          <abbreviation>JMS</abbreviation>
+          <completename>J. Michael Straczynski</completename>
+        </name>
+      </person>
+    </contributor>
+    <amend>
+      <description>Approved edition of S-102</description>
+    </amend>
+  </revision>
+  <revision>
+    <date>
+      <type>updated</type>
+      <value>2017-03</value>
+    </date>
+    <edition>2.0.0</edition>
+    <contributor>
+      <organization>
+        <name>S-102PT</name>
+      </organization>
+    </contributor>
+    <amend>
+      <description>Updated clause 4.0 and 12.0.
+
+Populated clause 9.0.</description>
+      <location type="clause">4.0</location>
+      <location type="clause">12.0</location>
+      <location type="clause">9.0</location>
+      <location type="whole"></location>
+      <classification>
+        <tag>severity</tag>
+        <value>major</value>
+      </classification>
+      <classification>
+        <tag>type</tag>
+        <value>editorial</value>
+      </classification>
+    </amend>
+    <amend>
+      <description>Deleted contents of Annex B in preparation for updated S-100 Part 10C guidance.</description>
+      <location type="annex">B</location>
+    </amend>
+  </revision>
+</revision-history>

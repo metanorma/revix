@@ -1,0 +1,317 @@
+= Revix: revision history models
+
+image:https://img.shields.io/gem/v/revix.svg["Gem Version", link="https://rubygems.org/gems/revix"]
+image:https://github.com/metanorma/revix/workflows/ubuntu/badge.svg["Ubuntu Build Status", link="https://github.com/metanorma/revix/actions?query=workflow%3Aubuntu"]
+image:https://github.com/metanorma/revix/workflows/macos/badge.svg["OSX Build Status", link="https://github.com/metanorma/revix/actions?query=workflow%3Amacos"]
+image:https://github.com/metanorma/revix/workflows/windows/badge.svg["Windows Build Status", link="https://github.com/metanorma/revix/actions?query=workflow%3Awindows"]
+image:https://codeclimate.com/github/metanorma/revix/badges/gpa.svg["Code Climate", link="https://codeclimate.com/github/metanorma/revix"]
+image:https://img.shields.io/github/issues-pr-raw/metanorma/revix.svg["Pull Requests", link="https://github.com/metanorma/revix/pulls"]
+image:https://img.shields.io/github/commits-since/metanorma/revix/latest.svg["Commits since latest",link="https://github.com/metanorma/revix/releases"]
+
+== Purpose
+
+Revix is a Ruby gem for working with Metanorma document revision history.
+
+It provides a set of models and utilities for parsing, manipulating, and
+serializing revision history data in YAML and XML formats.
+
+== Installation
+
+Add this line to your application's Gemfile:
+
+[source,ruby]
+----
+gem 'revix'
+----
+
+And then execute:
+
+[source,shell]
+----
+$ bundle install
+----
+
+Or install it yourself as:
+
+[source,shell]
+----
+$ gem install revix
+----
+
+== Usage
+
+=== Parsing revision history
+
+==== From YAML
+
+[source,yaml]
+----
+- edition: 1.0.0
+  date:
+    - type: published
+      value: 2012-04
+  contributor:
+    - person:
+        name:
+          abbreviation: JMS
+          completename: J. Michael Straczynski
+  amend:
+    - description: Approved edition of S-102
+      location:
+        - type: clause
+          value: 4.0
+        - type: whole
+----
+
+[source,ruby]
+----
+require 'revix'
+
+# Parse from YAML string
+yaml_content = File.read('revision_history.yaml')
+history = Revix::RevisionHistory.from_yaml(yaml_content)
+
+# Access revision data
+history.revisions.each do |revision|
+  puts "Edition: #{revision.edition}"
+  puts "Date: #{revision.date.first.value} (#{revision.date.first.type})"
+
+  revision.contributor.each do |contributor|
+    if contributor.person
+      puts "Contributor: #{contributor.person.name.completename} (#{contributor.person.name.abbreviation})"
+    elsif contributor.organization
+      puts "Contributor: #{contributor.organization.name}"
+    end
+  end
+
+  revision.amend.each do |amendment|
+    puts "Amendment: #{amendment.description}"
+
+    amendment.location&.each do |location|
+      if location.value
+        puts "  Location: #{location.type}=#{location.value}"
+      else
+        puts "  Location: #{location.type}"
+      end
+    end
+
+    amendment.classification&.each do |classification|
+      puts "  Classification: #{classification.tag} = #{classification.value}"
+    end
+  end
+end
+----
+
+==== From XML
+
+[source,xml]
+----
+<revision-history>
+  <revision>
+    <date type="published">2012-04</date>
+    <edition>1.0.0</edition>
+    <contributor>
+      <person>
+        <name abbreviation="JMS">
+          <completename>J. Michael Straczynski</completename>
+        </name>
+      </person>
+    </contributor>
+    <amend>
+      <amendment>
+        <description>Approved edition of S-102</description>
+        <location type="clause">4.0</location>
+        <location type="whole"/>
+      </amendment>
+    </amend>
+  </revision>
+</revision-history>
+----
+
+[source,ruby]
+----
+require 'revix'
+
+# Parse from XML string
+xml_content = File.read('revision_history.xml')
+history = Revix::RevisionHistory.from_xml(xml_content)
+
+# Access revision data (same as with YAML)
+----
+
+=== Serializing revision history
+
+==== To YAML
+
+[source,ruby]
+----
+require 'revix'
+
+# Create a revision history object
+history = Revix::RevisionHistory.new(revisions: [
+  Revix::Revision.new(
+    date: [Revix::DateInfo.new(type: "published", value: "2012-04")],
+    edition: "1.0.0",
+    contributor: [
+      Revix::Contributor.new(
+        person: Revix::Person.new(
+          name: Revix::Name.new(
+            abbreviation: "JMS",
+            completename: "J. Michael Straczynski"
+          )
+        )
+      )
+    ],
+    amend: [
+      Revix::Amendment.new(
+        description: "Approved edition of S-102",
+        location: [
+          Revix::Location.new(type: "clause", value: "4.0"),
+          Revix::Location.new(type: "whole")
+        ]
+      )
+    ]
+  )
+])
+
+# Serialize to YAML
+yaml_content = history.to_yaml
+File.write('revision_history.yaml', yaml_content)
+----
+
+==== To XML
+
+[source,ruby]
+----
+# Serialize to XML
+xml_content = history.to_xml
+File.write('revision_history.xml', xml_content)
+----
+
+== Data model
+
+The Revix gem provides the following models.
+
+[source]
+----
++-------------------+
+|  RevisionHistory  |
+|                   |
+| +revisions        |
++--------+----------+
+         |
+         | 1..*
++--------v----------+      +------------+
+|     Revision      |      |  DateInfo  |
+|                   |      |            |
+| -edition          |<>--->| -type      |
+| -relation_type    |      | -value     |
+| +date             |      |            |
+| +contributor      |      +------------+
+| +amend            |
++--------+----------+
+         |
+    +----+----+---------------------+
+    |         |                     |
++---v---+ +---v----------+  +-------v--------+
+|Person | | Organization |  | Amendment      |
+|       | |              |  |                |
+| +name | | -name        |  | -description   |
+|       | | -subdivision |  | -change        |
+|       | | -abbreviation|  | +location      |
++---+---+ +--------------+  | +classification|
+    |                       +-------+--------+
+    |                               |
+    |                  +------------+------+
++---v---+              |                   |
+| Name  |       +------+-------+   +-------+-------+
+|       |       +  Location    |   | Classification|
+| -abbr |       |              |   |               |
+| -full |       | -type        |   | -tag          |
++-------+       | -value       |   | -value        |
+                +--------------+   +---------------+
+----
+
+=== RevisionHistory
+
+The main container for all revisions.
+
+`revisions`:: A collection of `Revision` objects
+
+=== Revision
+
+Represents a single revision entry.
+
+`date`:: A collection of `DateInfo` objects
+`edition`:: The version number as a string
+`contributor`:: A collection of `Contributor` objects
+`amend`:: A collection of `Amendment` objects
+`relation_type`:: The relation type (optional)
+
+=== DateInfo
+
+Represents date information.
+
+`type`:: The type of date (e.g., "published", "updated")
+`value`:: The date value as a string
+
+=== Contributor
+
+Represents a contributor, which can be either a person or an organization.
+
+`person`:: A `Person` object (optional)
+`organization`:: An `Organization` object (optional)
+
+=== Person
+
+Represents a person contributor.
+
+`name`:: A `Name` object
+
+=== Organization
+
+Represents an organization contributor.
+
+`name`:: The organization name as a string
+`subdivision`:: The organization subdivision as a string (optional)
+`abbreviation`:: The organization abbreviation as a string (optional)
+
+=== Name
+
+Represents a person's name.
+
+`abbreviation`:: The person's abbreviation or initials
+`completename`:: The person's full name
+
+=== Amendment
+
+Represents an amendment.
+
+`description`:: The amendment description as a string
+`location`:: A collection of `Location` objects (optional)
+`classification`:: A collection of `Classification` objects (optional)
+`change`:: The type of change (default: "modify")
+
+=== Location
+
+Represents a location affected by an amendment.
+
+`type`:: The location type. Accepts the defined Metanorma location types, including: `section`, `clause`, `part`, `paragraph`, `chapter`, `page`, `line`, `table`, `annex`, `figure`, `example`, `note`, `formula`, `list`, `time`, `anchor`, `whole`.
+`value`:: The location value (e.g., `4.0`, `B`), can be `nil` for types like `whole`.
+
+=== Classification
+
+Represents a classification tag/value pair.
+
+`tag`:: The classification tag (e.g., "severity", "type")
+`value`:: The classification value (e.g., "major", "editorial")
+
+== Copyright
+
+This gem is developed, maintained and funded by
+https://www.ribose.com[Ribose Inc.]
+
+== License
+
+The gem is available as open source under the terms of the
+https://opensource.org/licenses/BSD-2-Clause[2-Clause BSD License].

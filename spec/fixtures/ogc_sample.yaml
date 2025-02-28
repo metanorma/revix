@@ -1,0 +1,31 @@
+revisions:
+  - date:
+    - type: published
+      value: 2020-06-04
+    edition: 0.9.0
+    contributor:
+    - person:
+        name:
+          completename: C. Heazel
+          abbreviation: CH
+    amend:
+      - description: Draft for review
+        location:
+          - type: whole
+  - date:
+    - type: published
+      value: 2020-06-07
+    edition: 0.9.1
+    contributor:
+    - person:
+        name:
+          completename: T. H. Kolbe
+          abbreviation: THK
+    amend:
+      - description: Bibliography was added
+        location:
+          - type: clause
+            value: 10
+        classification:
+          - tag: type
+            value: editorial
