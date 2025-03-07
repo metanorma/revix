@@ -5,6 +5,9 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in revix.gemspec
 gemspec
 
-gem "rake", "~> 13.0"
-gem "rspec", "~> 3.0"
-gem "rubocop", "~> 1.7"
+gem "nokogiri"
+gem "rake"
+gem "rspec"
+gem "rubocop"
+gem "xml-c14n"
+gem "lutaml-model", github: "lutaml/lutaml-model"
