@@ -14,7 +14,7 @@ module Revix
 
     xml do
       root "location"
-      map_content to: :value
+      map_content to: :value, value_map: { to: { nil: :empty } }
       map_attribute "type", to: :type
     end
 
