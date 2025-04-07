@@ -5,7 +5,6 @@ source "https://rubygems.org"
 # Specify your gem's dependencies in revix.gemspec
 gemspec
 
-gem "nokogiri"
 gem "rake"
 gem "rspec"
 gem "rubocop"
