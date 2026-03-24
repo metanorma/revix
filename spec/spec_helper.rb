@@ -2,7 +2,7 @@
 
 require "bundler/setup"
 require "revix"
-require "xml/c14n"
+require "canon"
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure
@@ -14,4 +14,9 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+end
+
+require "lutaml/model"
+Lutaml::Model::Config.configure do |config|
+  config.xml_adapter_type = :nokogiri
 end

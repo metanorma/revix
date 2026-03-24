@@ -8,7 +8,7 @@ module Revix
     attribute :value, :string
 
     xml do
-      root "date"
+      element "date"
       map_element "type", to: :type
       map_element "value", to: :value
     end

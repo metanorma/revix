@@ -13,7 +13,7 @@ module Revix
     attribute :type, :string, values: VALID_TYPES
 
     xml do
-      root "location"
+      element "location"
       map_content to: :value, value_map: { to: { nil: :empty } }
       map_attribute "type", to: :type
     end

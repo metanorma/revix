@@ -64,12 +64,8 @@ RSpec.describe Revix::RevisionHistory do
       # Convert back to XML
       generated_xml = history.to_xml
 
-      # Canonicalize both XMLs and compare using xml-c14n
-      c14n_original = Xml::C14n.format(original_xml)
-      c14n_generated = Xml::C14n.format(generated_xml)
-
-      expect(c14n_generated).to eq(c14n_original)
-      expect(c14n_generated).to be_analogous_with(c14n_original)
+      # Compare the original and generated XML
+      expect(generated_xml).to be_xml_equivalent_to(original_xml)
     end
   end
 end

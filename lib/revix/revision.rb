@@ -11,7 +11,7 @@ module Revix
     attribute :relation_type, Amendment, collection: true
 
     xml do
-      root "revision"
+      element "revision"
       map_element "date", to: :date
       map_element "edition", to: :edition
       map_element "contributor", to: :contributor

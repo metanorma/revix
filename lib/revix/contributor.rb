@@ -8,7 +8,7 @@ module Revix
     attribute :organization, Organization
 
     xml do
-      root "contributor"
+      element "contributor"
       map_element "person", to: :person
       map_element "organization", to: :organization
     end
