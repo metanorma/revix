@@ -8,7 +8,7 @@ module Revix
     attribute :completename, :string
 
     xml do
-      root "name"
+      element "name"
       map_element "abbreviation", to: :abbreviation
       map_element "completename", to: :completename
     end

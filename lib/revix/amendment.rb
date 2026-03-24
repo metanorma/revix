@@ -10,7 +10,7 @@ module Revix
     attribute :change, :string, default: -> { "modify" }
 
     xml do
-      root "amend"
+      element "amend"
       map_element "description", to: :description
       map_element "location", to: :location
       map_element "classification", to: :classification

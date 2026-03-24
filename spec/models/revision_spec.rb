@@ -46,12 +46,8 @@ RSpec.describe Revix::Revision do
       parsed = Revix::Revision.from_xml(xml1)
       xml2 = parsed.to_xml
 
-      # Canonicalize both XMLs and compare using xml-c14n
-      c14n1 = Xml::C14n.format(xml1)
-      c14n2 = Xml::C14n.format(xml2)
-
-      expect(c14n2).to eq(c14n1)
-      expect(c14n2).to be_analogous_with(c14n1)
+      # Compare the original and generated XML
+      expect(xml2).to be_xml_equivalent_to(xml1)
     end
   end
 end

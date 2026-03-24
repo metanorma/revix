@@ -8,7 +8,7 @@ module Revix
     attribute :value, :string
 
     xml do
-      root "classification"
+      element "classification"
       map_element "tag", to: :tag
       map_element "value", to: :value
     end

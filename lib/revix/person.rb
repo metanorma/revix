@@ -7,7 +7,7 @@ module Revix
     attribute :name, Name
 
     xml do
-      root "person"
+      element "person"
       map_element "name", to: :name
     end
 

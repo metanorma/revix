@@ -7,7 +7,7 @@ module Revix
     attribute :revisions, Revix::Revision, collection: true
 
     xml do
-      root "revision-history"
+      element "revision-history"
       map_element "revision", to: :revisions
     end
 

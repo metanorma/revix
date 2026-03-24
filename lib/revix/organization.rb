@@ -9,7 +9,7 @@ module Revix
     attribute :abbreviation, :string
 
     xml do
-      root "organization"
+      element "organization"
       map_element "name", to: :name
       map_element "subdivision", to: :subdivision
       map_element "abbreviation", to: :abbreviation
