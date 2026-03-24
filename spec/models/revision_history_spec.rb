@@ -6,40 +6,44 @@ RSpec.describe Revix::RevisionHistory do
   fixture_path = File.join(__dir__, "..", "fixtures")
   let(:yaml_content) { File.read(File.join(fixture_path, "sample.yaml")) }
   let(:xml_content) { File.read(File.join(fixture_path, "sample.xml")) }
-  let(:iho_yaml_content) { File.read(File.join(fixture_path, "iho_sample.yaml")) }
-  let(:ogc_yaml_content) { File.read(File.join(fixture_path, "ogc_sample.yaml")) }
+  let(:iho_yaml_content) do
+    File.read(File.join(fixture_path, "iho_sample.yaml"))
+  end
+  let(:ogc_yaml_content) do
+    File.read(File.join(fixture_path, "ogc_sample.yaml"))
+  end
 
   describe ".from_yaml" do
     it "parses YAML content into a RevisionHistory object" do
-      history = Revix::RevisionHistory.from_yaml(yaml_content)
-      expect(history).to be_a(Revix::RevisionHistory)
+      history = described_class.from_yaml(yaml_content)
+      expect(history).to be_a(described_class)
       expect(history.revisions.size).to eq(2)
     end
 
     it "parses IHO YAML content into a RevisionHistory object" do
-      history = Revix::RevisionHistory.from_yaml(iho_yaml_content)
-      expect(history).to be_a(Revix::RevisionHistory)
+      history = described_class.from_yaml(iho_yaml_content)
+      expect(history).to be_a(described_class)
       expect(history.revisions.size).to eq(4)
     end
 
     it "parses OGC YAML content into a RevisionHistory object" do
-      history = Revix::RevisionHistory.from_yaml(ogc_yaml_content)
-      expect(history).to be_a(Revix::RevisionHistory)
+      history = described_class.from_yaml(ogc_yaml_content)
+      expect(history).to be_a(described_class)
       expect(history.revisions.size).to eq(2)
     end
   end
 
   describe ".from_xml" do
     it "parses XML content into a RevisionHistory object" do
-      history = Revix::RevisionHistory.from_xml(xml_content)
-      expect(history).to be_a(Revix::RevisionHistory)
+      history = described_class.from_xml(xml_content)
+      expect(history).to be_a(described_class)
       expect(history.revisions.size).to eq(2)
     end
   end
 
   describe "#to_yaml" do
     it "converts a RevisionHistory object to YAML" do
-      history = Revix::RevisionHistory.from_yaml(yaml_content)
+      history = described_class.from_yaml(yaml_content)
       yaml = history.to_yaml
       expect(yaml).to be_a(String)
     end
@@ -47,7 +51,7 @@ RSpec.describe Revix::RevisionHistory do
 
   describe "#to_xml" do
     it "converts a RevisionHistory object to XML" do
-      history = Revix::RevisionHistory.from_yaml(yaml_content)
+      history = described_class.from_yaml(yaml_content)
       xml = history.to_xml
       expect(xml).to be_a(String)
       expect(xml).to include("<revision-history>")
@@ -59,7 +63,7 @@ RSpec.describe Revix::RevisionHistory do
       original_xml = xml_content
 
       # Parse to object
-      history = Revix::RevisionHistory.from_xml(original_xml)
+      history = described_class.from_xml(original_xml)
 
       # Convert back to XML
       generated_xml = history.to_xml
