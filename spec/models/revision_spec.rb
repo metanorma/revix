@@ -5,25 +5,26 @@ require "spec_helper"
 RSpec.describe Revix::Revision do
   let(:revision_data) do
     date = [
-      Revix::DateInfo.new(type: "published", value: "2012-04")
+      Revix::DateInfo.new(type: "published", value: "2012-04"),
     ]
-    name = Revix::Name.new(abbreviation: "JMS", completename: "J. Michael Straczynski")
+    name = Revix::Name.new(abbreviation: "JMS",
+                           completename: "J. Michael Straczynski")
     person = Revix::Person.new(name: name)
     contributor = Revix::Contributor.new(person: person)
     amendment = Revix::Amendment.new(description: "Approved edition of S-102")
 
-    Revix::Revision.new(
+    described_class.new(
       date: date,
       edition: "1.0.0",
       contributor: [contributor],
-      amend: [amendment]
+      amend: [amendment],
     )
   end
 
   describe ".new" do
     it "creates a new Revision object" do
       revision = revision_data
-      expect(revision).to be_a(Revix::Revision)
+      expect(revision).to be_a(described_class)
       expect(revision.edition).to eq("1.0.0")
       expect(revision.date.size).to eq(1)
       expect(revision.date.first.type).to eq("published")
@@ -43,7 +44,7 @@ RSpec.describe Revix::Revision do
       xml1 = original.to_xml
 
       # Parse back to object and generate XML again
-      parsed = Revix::Revision.from_xml(xml1)
+      parsed = described_class.from_xml(xml1)
       xml2 = parsed.to_xml
 
       # Compare the original and generated XML
