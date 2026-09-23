@@ -31,4 +31,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "lutaml-model", "~> 0.8.0"
+
+  # The spec suite pins the nokogiri adapter (xml_adapter_type =
+  # :nokogiri); runtime XML goes through moxml via lutaml-model.
+  spec.add_development_dependency "nokogiri"
 end
