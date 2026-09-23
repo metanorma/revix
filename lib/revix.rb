@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require_relative "revix/version"
-require "nokogiri"
 require "lutaml/model"
 
 module Revix
